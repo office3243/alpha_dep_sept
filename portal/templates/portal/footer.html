@@ -1,0 +1,113 @@
+{% load static %}
+{% load portal_tags %}
+
+	<footer class="bg3 p-t-75 p-b-32">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-lg-4 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Categories
+					</h4>
+
+					<ul>
+						<li class="p-b-10">
+							<a href="{% get_category_url_by_name_contains "visiting card" %}" class="stext-107 cl7 hov-cl1 trans-04">
+								Visiting Cards
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="{% get_category_url_by_name_contains "pen" %}" class="stext-107 cl7 hov-cl1 trans-04">
+								Pens
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="{% get_category_url_by_name_contains "id card" %}" class="stext-107 cl7 hov-cl1 trans-04">
+								id Cards
+							</a>
+						</li>
+                        <li class="p-b-10">
+							<a href="{% url "products:category_list" %}" class="stext-107 cl7 hov-cl1 trans-04">
+								All Categories
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-sm-6 col-lg-4 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Help
+					</h4>
+
+					<ul>
+						<li class="p-b-10">
+							<a href="{% url "orders:list" %}" class="stext-107 cl7 hov-cl1 trans-04">
+								Track Order
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-sm-6 col-lg-4 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						GET IN TOUCH
+					</h4>
+
+					<p class="stext-107 cl7 size-201">
+						Do you have any questions with us ?<br>Contacts : <br>+91 7769082463<br>alphahub27@gmail.com<br>Kondhwa Khurd, Pune-48
+					</p>
+
+					<div class="p-t-27">
+						<a href="https://www.facebook.com/alphacard.printing" class="fs-18 cl7 hov-cl1 trans-04 m-r-16" target="_blank">
+							<i class="fa fa-facebook"></i>
+						</a>
+
+						<a href="https://www.instagram.com/alphacardsprinting/" class="fs-18 cl7 hov-cl1 trans-04 m-r-16" target="_blank">
+							<i class="fa fa-instagram"></i>
+						</a>
+
+						<a href="https://www.youtube.com/channel/UCVnYi7zrxkVboBgAzb0_r3Q" class="fs-18 cl7 hov-cl1 trans-04 m-r-16" target="_blank">
+							<i class="fa fa-youtube-play"></i>
+						</a>
+                        <a href="https://twitter.com/CardsAlpha" class="fs-18 cl7 hov-cl1 trans-04 m-r-16" target="_blank">
+							<i class="fa fa-twitter"></i>
+						</a>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="p-t-40">
+				<div class="flex-c-m flex-w p-b-18">
+					<a href="#" class="m-all-1">
+						<img src="{% static "images/icons/icon-pay-01.png" %}" alt="ICON-PAY">
+					</a>
+
+					<a href="#" class="m-all-1">
+						<img src="{% static "images/icons/icon-pay-02.png" %}" alt="ICON-PAY">
+					</a>
+
+					<a href="#" class="m-all-1">
+						<img src="{% static "images/icons/icon-pay-03.png" %}" alt="ICON-PAY">
+					</a>
+
+					<a href="#" class="m-all-1">
+						<img src="{% static "images/icons/icon-pay-04.png" %}" alt="ICON-PAY">
+					</a>
+
+					<a href="#" class="m-all-1">
+						<img src="{% static "images/icons/icon-pay-05.png" %}" alt="ICON-PAY">
+					</a>
+				</div>
+
+				<p class="stext-107 cl6 txt-center">
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> -<span class="text-white">Alphahub Printing Center</span> | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+				</p>
+			</div>
+		</div>
+	</footer>
+

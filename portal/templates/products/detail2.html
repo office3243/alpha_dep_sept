@@ -1,0 +1,104 @@
+{% extends "portal/base.html" %}
+{% load static %}
+{% block title %}{{ product.get_display_text }}{% endblock %}
+{% block extrahead %}
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous">
+    </script>
+
+{% endblock %}
+
+
+{% block content %}
+
+    <!--single start here-->
+    <div class="single">
+        <h2 class="text-center aa-heading">{{ product.get_display_text }}</h2><br><hr>
+       <div class="container">
+         <div class="single-main">
+            <div class="single-top-main">
+                <div class="col-md-5 single-top">
+                   <div class="flexslider">
+                      <ul class="slides">
+                         {% for photo in product.get_photos %}
+                            <li data-thumb="{{ photo.get_photo_url }}">
+                                <div class="thumb-image"> <img src="{{ photo.get_photo_url }}" data-imagezoom="true" class="img-responsive"> </div>
+                            </li>
+                         {% endfor %}
+                      </ul>
+                </div>
+                </div>
+                <div class="col-md-7 single-top-left simpleCart_shelfItem">
+                    <h2>{{ product.category.name }}</h2>
+                    <h1>{{ product.get_display_text }}</h1>
+                    {% for spec in product.get_specifications %}
+                        <h4>{{ spec.name }} : {{ spec.value }}</h4>
+                    {% endfor %}
+                    <h6 class="item_price">{{ product.get_display_price }} Per Piece</h6>
+                    <p>{{ product.extra_info }}</p>
+                    <h4>Rates</h4>
+                    <form action="{% url "carts:item_add" %}" method="post">
+                        {% csrf_token %}
+                        <input name="product_id" value="{{ product.id }}" type="hidden">
+                        <ul class="bann-btns">
+                            {% if product.category.is_rate_qty %}
+                                <li>
+                                    <select id="quantity"  name="quantity" class="bann-size">
+                                        {% for rate in product.rate_set.all %}
+                                            <option id="quantity_option"  value={{ rate.quantity }}>{{ rate.quantity }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </li>
+                            {% else %}
+                                <li>Enter Quantity : <input id="quantity" name="quantity" type="number"></li>
+                            {% endif %}
+{#                            <li><a  class="item_add">Add To Cart</a></li>#}
+                            <li><input class="item_add" type="submit" value="Add To Cart"></li>
+                        </ul>
+                        <h4>Amount : <span id="calculated_amount"></span></h4>
+                    </form>
+                </div>
+               <div class="clearfix"> </div>
+           </div>
+         </div>
+       </div>
+    </div>
+    <!--single end here-->
+
+
+    <script>
+            var rates_dict = Object({{ rates_dict }});
+            var rates_array = [{% for rate in product.rate_set.all %}{{ rate.quantity }}, {% endfor %}].sort(function compareNumbers(a, b) {return a - b;}).reverse();
+            console.log(rates_dict);
+            console.log(rates_array);
+
+            {% if product.category.is_rate_qty %}
+                $("#calculated_amount").text(rates_dict[document.getElementById("quantity").value]);
+            {% endif %}
+            $("#quantity").change(function a() {
+                if (this.value < rates_array[rates_array.length-1]){
+                    console.log("Less", this.value ,"<" ,rates_array[rates_array.length-1]);
+                    console.log(this.value);
+                    $("#quantity").val(rates_array[rates_array.length-1]);
+                }
+                else{
+
+                }
+                   for (i=0; i < rates_array.length; i++){
+                       console.log(rates_array[i]);
+                       console.log(rates_dict[rates_array[i]]);
+                       if (rates_array[i] <= this.value){
+                           console.log("IF");
+                           $("#calculated_amount").text((rates_dict[rates_array[i]]/rates_array[i])*this.value);
+                           break;
+
+                       }
+                   }
+            });
+
+    </script>
+
+{% endblock %}

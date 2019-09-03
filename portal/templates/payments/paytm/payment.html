@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Paytm Redirect</title>
+    </head>
+    <body>
+        <p style="position: absolute;top: 50%; left: 50%; transform: translate(-50%, -50%)">You will be redirected to Paytm.com ...</p>
+        <div style="display: none">
+            <form method="post" action="https://securegw-stage.paytm.in/order/process" name="f1">
+{#            <form method="post" action="https://securegw.paytm.in/order/process" name="f1">#}
+                <table border="1">
+                    <tbody>
+                    {% for key,value in paytmdict.items %}
+                        <input name="{{key}}" value="{{value}}">
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <script type="text/javascript">
+                document.f1.submit();
+                </script>
+                <input type="submit">
+            </form>
+        </div>
+    </body>
+</html>

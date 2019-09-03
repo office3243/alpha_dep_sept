@@ -1,0 +1,263 @@
+{% extends "portal/base.html" %}
+{% load static %}
+{% block title %}{{ product.get_display_text }}{% endblock %}
+{% block extrahead %}
+        <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous">
+    </script>
+
+
+{% endblock %}
+
+
+{% block content %}
+
+	<!-- Product Detail -->
+	<section class="sec-product-detail bg0 p-t-65 p-b-60">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-lg-7 p-b-30">
+					<div class="p-l-25 p-r-30 p-lr-0-lg">
+						<div class="wrap-slick3 flex-sb flex-w">
+							<div class="wrap-slick3-dots"></div>
+							<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+
+							<div class="slick3 gallery-lb">
+
+                                {% for photo in product.photo_set.all %}
+								    <div class="item-slick3" data-thumb="{{ photo.get_photo_url }}">
+                                        <div class="wrap-pic-w pos-relative">
+                                            <img src="{{ photo.get_photo_url }}" alt="IMG-PRODUCT" onerror="imgError(this);" >
+
+                                            <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{ photo.get_photo_url }}">
+                                                <i class="fa fa-expand"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-lg-5 p-b-30">
+					<div class="p-r-50 p-t-5 p-lr-0-lg " >
+						<h4 class="mtext-105 js-name-detail p-b-14 cl2 font-weight-bold">
+							{{ product.get_display_text }}
+						</h4>
+
+						<span class="mtext-106">
+                            <span >Price : </span>{{ product.get_display_price }}
+						</span>
+                        <br>
+                        <span class="mtext-106">
+							Product Code : {{ product.product_code }}
+						</span>
+
+						<p class="stext-102 cl3 p-t-23">
+							{{ product.headline }}
+						</p>
+                        <hr>
+
+						<!--  -->
+						<div class="jumbotron" style="height: fit-content!important;">
+                            <form method="post" enctype="multipart/form-data" action="{% url "carts_app:item_add" %}" id="add-form" onchange="temp();">
+                                {% csrf_token %}
+                                <input value="{{ product.id }}" name="product_id" type="hidden">
+
+                                {% if product.category.is_rate_qty %}
+
+                                    <div class="flex-w flex-r-m p-b-10">
+                                        <div class="size-203 flex-c-m respon6 font-weight-bold">
+                                            Select Quantity
+                                        </div>
+
+                                        <div class="size-204 respon6-next">
+                                            <div class="rs1-select2 bor8 bg0">
+                                                <select class="js-select2 form-controsl"  id="quantity" name="quantity">
+                                                    {% for rate in product.rate_set.all %}
+                                                        <option value={{ rate.quantity }}>{{ rate.quantity }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <div class="dropDownSelect2"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+
+                                    <div class="flex-w flex-r-m p-b-10">
+                                        <div class="size-204 flex-w flex-m respon6-next">
+                                            <div class="wrap-num-product flex-w m-r-20 m-tb-10">
+                                                <div class="aa-btn-up-down cl8 hov-btn3 trans-04 flex-c-m" onclick="down_qty();">
+                                                    <i class="fs-16 zmdi zmdi-minus"></i>
+                                                </div>
+
+                                                <input class="mtext-104 cl3 txt-center num-product" id="quantity" type="number" name="quantity">
+
+                                                <div class="aa-btn-up-down cl8 hov-btn3 trans-04 flex-c-m" onclick="add_qty();">
+                                                    <i class="fs-16 zmdi zmdi-plus"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+                                    <hr>
+                                    <div class="flex-w flex-r-m p-b-10">
+                                        <div class="size-203 m respon6 font-weight-bold">
+                                            Upload File (Optional)
+                                        </div>
+
+                                        <div class="size-204 respon6-next">
+                                            <div class="rs1-select2 bor8 bg0">
+                                                <input type="file" class="form-control" name="user_file">
+                                                <div class="dropDownSelect2"></div>
+                                            </div>
+                                        </div>
+
+                                        <span class="text-primary" style="margin-top: 10px">You can upload your file or contact with us for information about your product order!</span>
+                                    </div>
+
+
+                                <br>
+                                <div class="btn text-white font-weight-bold btn-block" style="background-color: #717fe0">
+                                    <h4>Amount : <span id="calculated_amount" class="round_int"></span> Rs</h4>
+                                </div>
+                                <br><br>
+                                <div class="container">
+
+                                    <div class="float-right">
+                                        <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+                                            Add to cart
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+                    <span class="alert alert-info font-weight-bold btn-block">Once you place the order, We will contact you to get all information about your product.</span>
+
+			<div class="bor10 m-t-50 p-t-43 p-b-40">
+				<!-- Tab01 -->
+				<div class="tab01">
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item p-b-10">
+							<a class="nav-link active" data-toggle="tab" href="#information" role="tab">Specification</a>
+						</li>
+
+						<li class="nav-item p-b-10">
+							<a class="nav-link" data-toggle="tab" href="#description" role="tab">Description</a>
+						</li>
+
+
+
+					</ul>
+
+					<!-- Tab panes -->
+					<div class="tab-content p-t-43">
+
+                        <div class="tab-pane fade show active " id="information" role="tabpanel">
+                            <div class="row">
+                                <div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
+                                    <ul class="p-lr-28 p-lr-15-sm">
+                                        {% for spec in product.specification_set.all %}
+                                            <li class="flex-w flex-t p-b-7">
+                                                <span class="stext-102 cl3 size-205">
+                                                    {{ spec.name }}
+                                                </span>
+
+                                                <span class="stext-102 cl6 size-206">
+                                                    {{ spec.value }}
+                                                </span>
+                                            </li>
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+						<div class="tab-pane fade" id="description" role="tabpanel">
+							<div class="how-pos2 p-lr-15-md">
+								<p class="stext-102 cl6">
+									{{ product.extra_info }}
+								</p>
+							</div>
+						</div>
+
+						<!-- - -->
+
+
+                    </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
+			<span class="stext-107 cl6 p-lr-25">
+				Product Code : {{ product.product_code }}
+			</span>
+
+			<span class="stext-107 cl6 p-lr-25">
+				Category : {{ product.category.get_display_text }}
+			</span>
+		</div>
+	</section>
+
+
+    <script>
+            var rates_dict = Object({{ rates_dict }});
+            var rates_array = [{% for rate in product.rate_set.all %}{{ rate.quantity }}, {% endfor %}].sort(function compareNumbers(a, b) {return a - b;}).reverse();
+            console.log(rates_dict);
+            console.log(rates_array);
+            $("#quantity").val(rates_array[rates_array.length - 1]);
+            temp();
+            function temp() {
+                console.log("change");
+
+                var qty_value = $("#quantity").val();
+                if (qty_value < rates_array[rates_array.length - 1]) {
+                    console.log("Less", qty_value, "<", rates_array[rates_array.length - 1]);
+                    console.log(qty_value);
+                    $("#quantity").val(rates_array[rates_array.length - 1]);
+                    temp();
+                } else {
+
+
+                    for (i = 0; i < rates_array.length; i++) {
+                        console.log(rates_array[i]);
+                        console.log(rates_dict[rates_array[i]]);
+                        if (rates_array[i] <= qty_value) {
+                            console.log("IF");
+                            $("#calculated_amount").text(((rates_dict[rates_array[i]] / rates_array[i]) * qty_value).toFixed(2));
+                            break;
+                        }
+                    }
+                }
+            }
+
+            function add_qty(){
+                {#parseFloat()#}
+                $("#quantity").val(-(-$("#quantity").val())+1);
+                temp();
+            }
+           function down_qty(){
+                        $("#quantity").val($("#quantity").val()-1);
+                        temp();
+                    }
+
+    </script>
+
+{% endblock %}
+
+

@@ -1,0 +1,57 @@
+{% extends "portal/base.html" %}
+{% block title %}My Orders{% endblock %}
+
+{% block  content %}
+    <br><br>
+    <h3 class="text-center">My Orders</h3>
+    <br><br>
+    {% if orders %}
+		<div class="container">
+            <div class="m-lr-auto m-b-50">
+                <div class="m-l-25 m-r--38 m-lr-0-xl">
+                    <div class="wrap-table-shopping-cart">
+                        <table class="table-shopping-cart">
+                            <tr class="table_head">
+                                <th class="column-1">Order Id</th>
+                                <th class="column-2">Status</th>
+                                <th class="column-3">Amount</th>
+                                <th class="column-4">Date</th>
+                                <th class="column-5">Bill</th>
+                            </tr>
+                            {% for order in orders %}
+                                <tr class="table_row">
+                                    <td class="column-1"><a href="{{ order.get_absolute_url }}"><u>{{ order.txn_id }}</u></a></td>
+                                    <td class="column-2">
+                                        {% with order.status as status %}
+                                            <span class=" badge badge-{% if status == "SH" %}success{% elif status == "RS"%}info{% elif status == "PL" %}primary{% else %}danger{% endif %}" style="margin-left: 10px">{{ order.get_status }}</span>
+                                            {% if status == "NP" %}<a class="btn  btn-primary" href="{{ order.get_create_payment_url }}">Pay</a>{% endif %}
+                                        {% endwith %}
+                                    </td>
+                                    <td class="column-3">{{ order.total_amount }}</td>
+                                    <td class="column-4">{{ order.get_created_date }}</td>
+                                    <td class="column-5">
+                                        {% if order.bill %}
+                                            <a href="{{ order.get_bill_download_link }}"><i class="zmdi zmdi-download zmdi-hc-lg"></i></a>
+                                        {% else %}
+                                            {% if order.status == "NP" %}
+                                                <span class="text-danger">Order not placed</span>
+                                            {% else %}
+                                                <span class="text-warning">Will Generate Soon</span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="jumbotron bg-white container">
+            <span class="alert alert-warning btn-block">No Orders Yet <a href="{% url "products:category_list" %}">Shop Now</a></span>
+        </div>
+    {% endif %}
+
+{% endblock %}

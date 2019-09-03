@@ -1,0 +1,188 @@
+{% extends "portal/base.html" %}
+{% load static %}
+{% block title %}{{ category.get_display_text }}{% endblock %}
+
+{% block content %}
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url({% static "images/slide_2.jpg" %});">
+		<h2 class="ltext-105 cl0 txt-center">
+			{{ category.get_display_text }}
+		</h2>
+	</section>
+
+	<!-- Product -->
+	<div class="bg0 m-t-23 p-b-140">
+		<div class="container">
+			<div class="flex-w flex-sb-m p-b-52">
+				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+						All Products
+					</button>
+
+                    {% if category.name == "Visiting Cards" %}
+
+                        <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".ivory">
+                            Ivory
+                        </button>
+
+                        <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".rigid">
+                            Rigid
+                        </button>
+
+                        <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".hard">
+                            Hard
+                        </button>
+
+                        <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".waterproof">
+                            Waterproof
+                        </button>
+                    {% endif %}
+
+				</div>
+
+				<div class="flex-w flex-c-m m-tb-10">
+					<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+						<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+						<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+						 Filter
+					</div>
+				</div>
+
+				<!-- Search product -->
+				<div class="dis-none panel-search w-full p-t-10 p-b-15">
+					<div class="bor8 dis-flex p-l-15">
+						<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+							<i class="zmdi zmdi-search"></i>
+						</button>
+
+						<input class="mtext-107 cl2 size-114 plh2 p-r-15" id="search-input" type="text" name="search-value" placeholder="Search">
+					</div>
+				</div>
+
+				<!-- Filter -->
+				<div class="dis-none panel-filter w-full p-t-10">
+                    <div class="jumbotron container">
+                        <form class="form" id="product-filter">
+                            {% if category.name == "Visiting Cards" %}
+                                <div class="row">
+                                    <div class="form-group col-lg-3">
+                                        <select id="paper-type" name="paper-type" class="form-control">
+                                            <option value="filterable-product">Select Paper Type</option>
+                                            <option value="paper-type__ivory">Ivory</option>
+                                            <option value="paper-type__rigid">Rigid</option>
+                                            <option value="paper-type__hard">Hard</option>
+                                            <option value="paper-type__waterproof">Waterproof</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <select id="double-side" name="double-side" class="form-control">
+                                            <option value="filterable-product">Select Double Side</option>
+                                            <option value="double-side__yes">Yes</option>
+                                            <option value="double-side__no">No</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <select id="lamination" name="lamination" class="form-control">
+                                            <option value="filterable-product">Select Lamination</option>
+                                            <option value="lamination__yes">Yes</option>
+                                            <option value="lamination__no">No</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            {% elif category.name == "Pens" %}
+                                <div class="row">
+                                    <div class="form-group col-lg-3">
+                                        <select id="material-type" name="material-type" class="form-control">
+                                            <option value="filterable-product">Select Material Type</option>
+                                            <option value="material-type__steel">Steel</option>
+                                            <option value="material-type__plastic">Plastic</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <select id="printing-type" name="printing-type" class="form-control">
+                                            <option value="filterable-product">Select Material Type</option>
+                                            <option value="printing-type__led">LED Printing</option>
+                                            <option value="printing-type__screen">Screen Printing</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <button type="button" class="btn text-white font-weight-bold float-right" style="background-color: #717fe0!important;" onclick="filter_products();">Filter</button>
+                        </form>
+                        <br><br>
+                    </div>
+				</div>
+
+			</div>
+
+
+			<div class="row isotope-grid">
+                {% for product in products %}
+				    <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item filterable-product {{ product.get_paper_type }} {{ product.product_code }} {{ product.name }} {% for spec in product.specification_set.all %}{{ spec.get_html_filter_class_name }} {% endfor %}">
+                        <div class="block2">
+                            <div class="block2-pic hov-img0">
+                                <img onerror="imgError(this);" src="{{ product.get_base_photo.get_photo_url }}" alt="IMG-PRODUCT">
+
+                                <a href="{{ product.get_absolute_url }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
+                                    Quick View
+                                </a>
+                            </div>
+
+                            <div class="block2-txt flex-w flex-t p-t-14">
+                                <div class="block2-txt-child1 flex-col-l ">
+                                    <a href="{{ product.get_absolute_url }}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                        <span class="font-weight-bold text-dark">{{ product.get_display_text}}</span> | {{ product.product_code }}
+                                    </a>
+
+                                    <span class="stext-105 cl3">
+                                        Avg Price : {{ product.get_display_price }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+			</div>
+		</div>
+	</div>
+
+    <script>
+        function filter_products() {
+            var products = $('.filterable-product');
+            var query = Array();
+            $("form#product-filter :input").each(function () {
+                if ($(this).val()){
+                    q = $(this).val();
+                    query.push(q);
+                }
+            });
+            console.log(query);
+
+            products.each(function () {
+                var result = false;
+                console.log($(this).attr("class"));
+                for (que in query){
+                    if ($(this).hasClass(query[que])){
+                        result = true;
+                    }
+                    else{
+                        result = false;
+                        break;
+                    }
+                }
+                console.log(result);
+                if (result===true){
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+            });
+        }
+
+    </script>
+
+{% endblock %}

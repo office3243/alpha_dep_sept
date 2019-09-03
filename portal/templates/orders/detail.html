@@ -1,0 +1,79 @@
+{% extends "portal/base.html" %}
+{% block title %}Order : {{ order.txn_id }}{% endblock %}
+
+{% block  content %}
+    <br><br>
+    <h3 class="text-center">
+        <u>Order : {{ order.txn_id }}<br><br>
+            {% with order.status as status %}
+                <span class="badge badge-{% if status == "SH" %}success{% elif status == "RS"%}info{% elif status == "PL" %}primary{% else %}danger{% endif %}" style="margin-left: 10px">{{ order.get_status }}</span></u>
+                {% if status == "NP" %}<a class="btn btn-primary" href="{{ order.get_create_payment_url }}">Pay Now</a>{% endif %}
+            {% endwith %}
+    </h3>
+    <br><br>
+    <div class="container font-weight-bold">
+        <ul class="list-group">
+            <li class="list-group-item">Date :  <span class="float-right">{{ order.get_created_date }}</span></li>
+            <li class="list-group-item">Total Amount :  <span class="float-right">{{ order.sub_total }} + {{ order.shipping_charges }} (Shipping) = {{ order.total_amount }}</span> </li>
+            <li class="list-group-item">Expected Delivery :  <span class="float-right{% if not order.delivery_expected %} text-warning{% endif %}">{{ order.get_delivery_expected }}</span> </li>
+            <li class="list-group-item">Contact :  <span class="float-right">{{ order.phone }}</span> </li>
+            <li class="list-group-item">Reciever Name :  <span class="float-right">{{ order.receiver_name }}</span> </li>
+            <li class="list-group-item">Extra Info :  <span class="float-right">{{ order.user_text }}</span> </li>
+            <li class="list-group-item">Payment :
+                {% if order.is_payed %}
+                        <span class="float-right text-success">Payment Done</span>
+                {% else %}
+                        <span class="float-right text-danger">Payment not Done
+                            <a class="btn btn-primary" href="{{ order.get_create_payment_url }}">Pay Now!</a>
+                        </span>
+                {% endif %}
+            </li>
+            <li class="list-group-item">Address :  <span class="float-right">{{ order.get_address_text }}</span></li>
+            <li class="list-group-item">Bill :
+                <span class="float-right">
+                    {% if order.bill %}
+                        <a href="{{ order.get_bill_download_link }}">Download <i class="zmdi zmdi-download zmdi-hc-lg"></i></a>
+                    {% else %}
+                        <span class="text-warning">Will Generate Soon</span>
+                    {% endif %}
+                </span>
+            </li>
+        </ul>
+    </div>
+    <br><br>
+
+    <h4 class="text-center font-weight-bold">All Items</h4>
+    <br><br>
+    <div class="container">
+        <div class="m-lr-auto m-b-50">
+            <div class="m">
+                <div class="wrap-table-shopping-cart">
+                    <table class="table-shopping-cart">
+                        <tr class="table_head">
+                            <th class="column-1">Product</th>
+                            <th class="column-2">Product Name</th>
+                            <th class="column-3">Price</th>
+                            <th class="column-4">Quantity</th>
+                            <th class="column-5"></th>
+                        </tr>
+
+                        {% for item in order.items.all %}
+                            <tr class="table_row">
+                                <td class="column-1">
+                                    <div class="how-itemcart1">
+                                        <img src="{{ item.product.get_base_photo.get_photo_url }}" alt="IMG">
+                                    </div>
+                                </td>
+                                <td class="column-2">{{ item.product.get_display_text }}</td>
+                                <td class="column-3">{{ item.amount }} Rupees</td>
+                                <td class="column-4">{{ item.quantity }}</td>
+                                <td class="column-5"></td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

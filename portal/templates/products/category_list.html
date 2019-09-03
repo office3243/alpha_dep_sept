@@ -1,0 +1,45 @@
+{% extends "portal/base.html" %}
+{% block title %}All Categories{% endblock %}
+{% load static %}
+
+{% block content %}
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url({% static "images/slide_2.jpg" %});">
+		<h2 class="ltext-105 cl0 txt-center">
+			All Categories
+		</h2>
+	</section>
+
+
+	<!-- category -->
+	<div class="bg0 m-t-23 p-b-140">
+		<div class="container">
+{#            <h3 class="text-center" >All Categories</h3>#}
+            <br><br>
+			<div class="row isotope-grid">
+                {% for category in categories %}
+				    <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+                        <div class="block2">
+                            <div class="block2-pic hov-img0">
+                                <img onerror="imgError(this);" src="{{ category.get_photo_url }}" alt="IMG-category">
+
+                                <a href="{{ category.get_absolute_url }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
+                                    Quick View
+                                </a>
+                            </div>
+
+                            <div class="block2-txt flex-w flex-t p-t-14">
+                                <div class="block2-txt-child1 flex-col-l ">
+                                    <a href="{{ category.get_absolute_url }}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                        <span class="text-dark font-weight-bold">{{ category.get_display_text}}</span> - Starting @ {{ category.get_starting_price }} Rs
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
