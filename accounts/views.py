@@ -18,9 +18,9 @@ from .models import User
 
 API_KEY_2FA = settings.API_KEY_2FA
 
-registeration_otp_template = "Registration_Template"
+registeration_otp_template = "ALP_Registration_Template"
 
-password_reset_otp_template = "Password_Reset_Template"
+password_reset_otp_template = "ALP_Password_Reset_Template"
 
 
 def register(request):
