@@ -1,10 +1,15 @@
 {% extends "portal/base.html" %}
 {% block title %}My Orders{% endblock %}
+{% load static %}
 
 {% block  content %}
-    <br><br>
-    <h3 class="text-center">My Orders</h3>
-    <br><br>
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url({% static "images/slide_2.jpg" %});">
+		<h2 class="ltext-105 cl0 txt-center">
+			My Orders
+		</h2>
+	</section>
+
     {% if orders %}
 		<div class="container">
             <div class="m-lr-auto m-b-50">
@@ -50,7 +55,7 @@
         </div>
     {% else %}
         <div class="jumbotron bg-white container">
-            <span class="alert alert-warning btn-block">No Orders Yet <a href="{% url "products:category_list" %}">Shop Now</a></span>
+            <span class="alert font-weight-bold alert-warning btn-block">No Orders Yet! <a href="{% url "products:category_list" %}">Shop Now</a></span>
         </div>
     {% endif %}
 

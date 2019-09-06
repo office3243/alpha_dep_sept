@@ -16,8 +16,9 @@ def place(request):
         form = OrderPlaceForm(request.POST)
         if form.is_valid():
             cart = get_request_cart(request)
-            line_1, line_2, locality, zip_code, phone = request.POST['line_1'], request.POST['line_2'], request.POST['locality'], request.POST['zip_code'], request.POST['phone']
-            order = Order.objects.create(user=request.user, line_1=line_1, line_2=line_2, locality=locality, zip_code=zip_code, phone=phone)
+            line_1, line_2, locality, zip_code, phone, receiver_name = request.POST['line_1'], request.POST['line_2'], request.POST['locality'], request.POST['zip_code'], request.POST['phone'], request.POST['receiver_name']
+            order = Order.objects.create(user=request.user, line_1=line_1, line_2=line_2, locality=locality,
+                                         zip_code=zip_code, phone=phone, receiver_name=receiver_name)
             for item in cart.cartitem_set.all():
                 order.items.add(item)
                 item.cart = None

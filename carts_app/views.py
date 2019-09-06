@@ -9,6 +9,8 @@ import decimal
 from django.core.validators import ValidationError
 from django.contrib import messages
 import os
+import magic
+
 
 def get_request_cart(request):
     if request.user.is_authenticated:
@@ -115,10 +117,11 @@ def item_delete(request, item_id):
 
 def user_file_download(request, id):
     try:
-        file_path = get_object_or_404(CartItem, id=id, cart=get_request_cart(request)).user_file.path
+        cart_item = get_object_or_404(CartItem, id=id, cart=get_request_cart(request))
+        file_path = cart_item.user_file.path
         if os.path.exists(file_path):
             with open(file_path, 'rb') as fh:
-                response = HttpResponse(fh.read(), content_type="application/pdf")
+                response = HttpResponse(fh.read(), content_type=cart_item.get_user_file_mime_type)
                 response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
                 return response
         raise Http404

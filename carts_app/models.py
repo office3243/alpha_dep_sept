@@ -7,6 +7,7 @@ from django.http import Http404
 import uuid
 from django.urls import reverse_lazy
 import decimal
+import magic
 
 
 class Cart(models.Model):
@@ -68,6 +69,10 @@ class CartItem(models.Model):
             return reverse_lazy("carts_app:user_file_download", kwargs={"id": self.id})
         else:
             return ""
+
+    @property
+    def get_user_file_mime_type(self):
+        return magic.from_file(self.user_file.path, mime=True)
 
     def clean(self):
         if self.product.category.is_rate_qty:

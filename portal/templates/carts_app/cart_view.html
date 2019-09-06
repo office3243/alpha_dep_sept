@@ -1,8 +1,16 @@
 {% extends "portal/base.html" %}
 {% block title %}My Cart{% endblock %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block  content %}
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url({% static "images/slide_2.jpg" %});">
+		<h2 class="ltext-105 cl0 txt-center">
+			Cart
+		</h2>
+	</section>
+
 
     {% if cart_items %}
         <form class="bg0 p-t-75 p-b-85" method="post" action="{% url "orders:place" %}">
@@ -165,7 +173,7 @@
     {% else %}
 {#        <br><br><br><br>#}
         <div class="jumbotron bg-white container">
-        <span class="alert alert-warning btn-block">Cart is Empty <a href="{% url "products:category_list" %}">Shop Now</a></span>
+        <span class="alert alert-warning btn-block font-weight-bold">Cart is Empty! <a href="{% url "products:category_list" %}">Shop Now</a></span>
 
         </div>
     {% endif %}

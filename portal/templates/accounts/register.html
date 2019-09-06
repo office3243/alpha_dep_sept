@@ -1,25 +1,16 @@
-{% extends "portal/base.html" %}
-{% block title %}Register{% endblock %}
+{% extends 'portal/base.html' %}
 {% load crispy_forms_tags %}
+{% block title %}Create New Account | Register{% endblock %}
 {% block content %}
-
-        <style>
-        .text-muted{
-            color: black!important;
-        }
-    </style>
-
-
-    <div class="" style="margin: 50px 10px">
-        <div class="col-lg-8 jumbotron text-white" style="background-color: #717fe0; margin: auto">
-            <h3 class="text-center font-weight-bold">Register</h3>
-            <form action="{% url "accounts:register" %}" method="post">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <input class="btn bg-white font-weight-bold" type="submit" value="Register">
-            </form>
-            <br>
-            <span class="float-right font-weight-bold">Already have an account! <a href="{% url "accounts:login" %}" class="font-weight-bold text-white"><u>Login</u></a></span>
-        </div>
+    <br><br>
+    <div class="jumbotron container card" style="background-color: white; border-color: #717fe0">
+        <h4 class="font-weight-bold text-center">Create New Account</h4><br>
+        <form action="{% url "accounts:register" %}" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-block text-white font-weight-bold" style="background-color: #717fe0" type="submit">Register</button>
+        </form>
+        <br><br>
+        <span class="font-weight-bold">Already an account! <a href="{% url "accounts:login" %}" class="font-weight-bold"><u>Login</u></a></span>
     </div>
 {% endblock %}

@@ -3,6 +3,7 @@ pillow
 django-filter
 requests
 django-crispy-forms
+python-magic
 
 backports.shutil-get-terminal-size==1.0.0
 decorator==4.0.10

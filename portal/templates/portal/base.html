@@ -50,7 +50,9 @@
     {% block content %}
     {% endblock %}
 
-
+    <a href="https://api.whatsapp.com/send?phone=917769082463" class="fixed-bottom" style="margin: 5%;max-width: 60px" target="_blank">
+        <img src="{% static "images/whatsapp_icon.png" %}" height="60px">
+        </a>
 	<!-- Footer -->
     {% include "portal/footer.html" %}
 
@@ -60,6 +62,7 @@
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
+
 
 
     {% block extrascript %}
