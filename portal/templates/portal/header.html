@@ -60,6 +60,9 @@
                             <li id="id-tab">
 								<a href="{% get_category_url_by_name_contains "id card" %}">id Cards</a>
 							</li>
+                            <li id="wh-tab">
+								<a href="{% get_category_url_by_name_contains "wholesale" %}">Wholesale</a>
+							</li>
 
 							<li id="contact-tab">
 								<a href="{% url "portal:contact" %}">Contact</a>
@@ -181,6 +184,9 @@
                 <li>
                     <a href="{% get_category_url_by_name_contains "id card" %}">id Cards</a>
                 </li>
+                <li>
+                    <a href="{% get_category_url_by_name_contains "wholesale" %}">Wholesale</a>
+                </li>
 				<li>
 					<a href="{% url "portal:contact" %}">Contact</a>
 				</li>
@@ -223,7 +229,11 @@
         }
         else if (current_url_path === '{% get_category_url_by_name_contains "Pen" %}'){
             $("#pn-tab").addClass("active-menu");
-        }        else if (current_url_path === '{% get_category_url_by_name_contains "Identity Card" %}'){
+        }
+        else if (current_url_path === '{% get_category_url_by_name_contains "Identity Card" %}'){
             $("#id-tab").addClass("active-menu");
+        }
+        else if (current_url_path === '{% get_category_url_by_name_contains "wholesale" %}'){
+            $("#wh-tab").addClass("active-menu");
         }
     </script>

@@ -16,3 +16,6 @@ class HomeView(TemplateView):
 class ContactView(TemplateView):
     template_name = "portal/contact.html"
 
+
+class TermsConditionView(TemplateView):
+    template_name = "portal/terms_and_conditions.html"

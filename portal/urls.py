@@ -9,4 +9,6 @@ urlpatterns = [
 
     url(r"^$", views.HomeView.as_view(), name="home"),
     url(r"^contact/$", views.ContactView.as_view(), name="contact"),
+    url(r"^terms_and_conditions/$", views.TermsConditionView.as_view(), name="terms_and_conditions"),
+
 ]

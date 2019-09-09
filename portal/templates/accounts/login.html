@@ -3,7 +3,7 @@
 {% block title %}Login{% endblock %}
 {% block content %}
     <br><br>
-    <div class="jumbotron container card" style="background-color: white; border-color: #717fe0">
+    <div class="jumbotron container card col-md-10 col-sm-10" style="background-color: white; border-color: #717fe0;max-width: 800px">
         <h4 class="font-weight-bold text-center">Login</h4><br>
         <form action="{% url "accounts:login" %}" method="post">
             {% csrf_token %}
