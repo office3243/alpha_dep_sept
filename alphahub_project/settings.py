@@ -4,7 +4,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = '+qkf6u0n7@xpqt#0_c61pmacz)tk%rgv*65m!-mrb%5s8#ga_c'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*", ]
 
@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'crispy_forms',
+    'compressor',
 
     "accounts",
     "orders",
@@ -93,11 +94,11 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 #   CUSTOM SETTINGS
 AUTH_USER_MODEL = 'accounts.User'
@@ -112,6 +113,10 @@ PAYTM_MERCHANT_ID = "VgBKhn41304614600778"
 PAYTM_WEBSITE = 'DEFAULT'
 PAYTM_CALLBACK_URL = SITE_DOMAIN + "/payments/paytm/response/"
 
+#
+# #   PAYTM LIVE
+# PAYTM_MERCHANT_KEY = "xt94GuDiIMz_#84O"
+# PAYTM_MERCHANT_ID = "ZIHCDc43188965988448"
 
 API_KEY_2FA = "c9ef2a2e-806a-11e9-ade6-0200cd936042"
 
@@ -127,3 +132,11 @@ EMAIL_HOST_PASSWORD = 'Abdul1996@'
 
 EMAIL_FROM = EMAIL_HOST_USER
 ADMIN_EMAIL = "alphahub27@gmail.com"
+
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)

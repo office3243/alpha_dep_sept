@@ -8,13 +8,6 @@ import json
 from django.db.models import Q
 
 
-class ProductListView(ListView):
-
-    model = Product
-    template_name = "products/list.html"
-    context_object_name = "products"
-
-
 class CategoryProductListView(ListView):
 
     model = Product
@@ -26,17 +19,6 @@ class CategoryProductListView(ListView):
         if "id" in self.kwargs:
             context['products'] = context['products'].filter(category__id=self.kwargs['id'])
             context['category'] = get_object_or_404(Category, id=self.kwargs['id'])
-        return context
-
-
-class ProductListFilterView(FilterView):
-
-    filterset_class = ProductFilter
-    template_name = "products/list_filter.html"
-    context_object_name = "products"
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data()
         return context
 
 

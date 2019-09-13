@@ -1,0 +1,239 @@
+{% load static %}
+{% load portal_tags %}
+
+	<header class="header-v4">
+		<!-- Header desktop -->
+		<div class="container-menu-desktop">
+			<!-- Topbar -->
+			<div class="top-bar">
+				<div class="content-topbar flex-sb-m h-full container">
+					<div class="left-top-bar">
+						Contact at +91 7769082463 | alphahub27@gmail.com
+					</div>
+
+					<div class="right-top-bar flex-w h-full">
+                        {% if user.is_authenticated %}
+                            <a class="flex-c-m trans-04 p-lr-25 text-white">
+                                Logged in as {{ user.phone }}
+                            </a>
+                            <a href="{% url "accounts:logout" %}" class="flex-c-m trans-04 p-lr-25">
+                                Logout
+                            </a>
+                        {% else %}
+                            <a href="{% url "accounts:login" %}" class="flex-c-m trans-04 p-lr-25">
+                                Login
+                            </a>
+                            <a href="{% url "accounts:register" %}" class="flex-c-m trans-04 p-lr-25">
+                                Register
+                            </a>
+                        {% endif %}
+					</div>
+				</div>
+			</div>
+
+			<div class="wrap-menu-desktop how-shadow1">
+				<nav class="limiter-menu-desktop container">
+
+					<!-- Logo desktop -->
+					<a href="#" class="logo">
+{#						<img src="{% static "images/icons/logo-01.png" %}" alt="IMG-LOGO">#}
+                        <h3 class="text-dark" style="font-family:'Pacifico', Helvetica, sans-serif;">Alpha Hub</h3>
+					</a>
+
+					<!-- Menu desktop -->
+					<div class="menu-desktop">
+						<ul class="main-menu">
+							<li id="home-tab">
+								<a href="{% url "portal:home" %}">Home</a>
+							</li>
+
+							<li id="categories-tab">
+								<a href="{% url "products:category_list" %}">All Categories</a>
+							</li>
+
+							<li id="vc-tab">
+								<a href="{% get_category_url_by_name_contains "visiting card" %}">Visiting Cards</a>
+							</li>
+                            <li id="pn-tab">
+								<a href="{% get_category_url_by_name_contains "pens" %}">Pens</a>
+							</li>
+                            <li id="id-tab">
+								<a href="{% get_category_url_by_name_contains "id card" %}">id Cards</a>
+							</li>
+                            <li id="wh-tab">
+								<a href="{% get_category_url_by_name_contains "wholesale" %}">Wholesale</a>
+							</li>
+
+							<li id="contact-tab">
+								<a href="{% url "portal:contact" %}">Contact</a>
+							</li>
+						</ul>
+					</div>
+
+					<!-- Icon header -->
+					<div class="wrap-icon-header flex-w flex-r-m">
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+							<i class="zmdi zmdi-search"></i>
+						</div>
+                        <a href="{% url "carts:cart_view" %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="{% get_request_cart_items_count request %}">
+							<i class="zmdi zmdi-shopping-cart"></i>
+						</a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url "orders:list" %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="{% get_pending_orders_count request %}">
+                                <i class="zmdi zmdi-local-shipping"></i>
+                            </a>
+                            <a href="{% url "accounts:logout" %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+                                <i class="zmdi zmdi-power-off"></i>
+                            </a>
+                        {% else %}
+                            <a href="{% url "accounts:login" %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+                                <i class="zmdi zmdi-sign-in"></i>
+                            </a>
+                        {% endif %}
+
+					</div>
+				</nav>
+			</div>
+		</div>
+
+		<!-- Header Mobile -->
+		<div class="wrap-header-mobile">
+			<!-- Logo moblie -->
+			<div class="logo-mobile">
+{#				<a href="index.html"><img src="{% static "images/icons/logo-01.png" %}" alt="IMG-LOGO"></a>#}
+                <span class="text-dasrk" style="font-family:'Pacifico', Helvetica, sans-serif!important;">Alpha Hub</span>
+            </div>
+
+			<!-- Icon header -->
+
+			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+					<i class="zmdi zmdi-search"></i>
+				</div>
+
+				<a href="{% url "carts:cart_view" %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="{% get_request_cart_items_count request %}">
+					<i class="zmdi zmdi-shopping-cart"></i>
+				</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url "orders:list" %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="{% get_pending_orders_count request %}">
+                        <i class="zmdi zmdi-local-shipping"></i>
+                    </a>
+                    <a href="{% url "accounts:logout" %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
+                        <i class="zmdi zmdi-power-off"></i>
+                    </a>
+                {% else %}
+                    <a href="{% url "accounts:login" %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
+                        <i class="zmdi zmdi-sign-in"></i>
+                    </a>
+                {% endif %}
+			</div>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+				<span class="hamburger-box">
+					<span class="hamburger-inner"></span>
+				</span>
+			</div>
+		</div>
+
+
+		<!-- Menu Mobile -->
+		<div class="menu-mobile">
+			<ul class="topbar-mobile">
+				<li>
+					<div class="left-top-bar">
+						Contact at +91 7769082463 | alphahub27@gmail.com
+					</div>
+				</li>
+
+				<li>
+					<div class="right-top-bar flex-w h-full">
+                        {% if user.is_authenticated %}
+                            <a class="flex-c-m trans-04 p-lr-25 text-white">
+                                Logged in as {{ user.phone }}
+                            </a>
+                            <a href="{% url "accounts:logout" %}" class="flex-c-m trans-04 p-lr-10">
+                                Logout
+                            </a>
+                        {% else %}
+                            <a href="{% url "accounts:login" %}" class="flex-c-m trans-04 p-lr-10">
+                                Login
+                            </a>
+                            <a href="{% url "accounts:register" %}" class="flex-c-m trans-04 p-lr-10">
+                                Register
+                            </a>
+                        {% endif %}
+    				</div>
+				</li>
+			</ul>
+
+			<ul class="main-menu-m">
+				<li>
+					<a href="{% url "portal:home" %}">Home</a>
+				</li>
+                <li>
+                    <a href="{% url "products:category_list" %}">All Categories</a>
+                </li>
+
+                <li>
+                    <a href="{% get_category_url_by_name_contains "visiting card" %}">Visiting Cards</a>
+                </li>
+                <li >
+                    <a href="{% get_category_url_by_name_contains "pens" %}">Pens</a>
+                </li>
+                <li>
+                    <a href="{% get_category_url_by_name_contains "id card" %}">id Cards</a>
+                </li>
+                <li>
+                    <a href="{% get_category_url_by_name_contains "wholesale" %}">Wholesale</a>
+                </li>
+				<li>
+					<a href="{% url "portal:contact" %}">Contact</a>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Modal Search -->
+		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+			<div class="container-search-header">
+				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+					<img src="{% static "images/icons/icon-close2.png" %}" alt="CLOSE">
+				</button>
+
+				<form class="wrap-search-header flex-w p-l-15" method="post" action="{% url "products:search_items" %}">
+                    {% csrf_token %}
+
+					<input class="plh3" required type="text" name="value" placeholder="Search Product ...">
+                    <button class="flex-c-m trans-04">
+						<i class="zmdi zmdi-search"></i>
+					</button>
+				</form>
+			</div>
+		</div>
+	</header>
+
+        <script type="text/javascript">
+            var current_url_path = "{{ request.path }}";
+            if (current_url_path === '{% url "portal:home" %}'){
+                $("#home-tab").addClass("active-menu");
+
+            }
+            else if (current_url_path === '{% url "products:category_list" %}'){
+                $("#categories-tab").addClass("active-menu");
+            }
+            else if (current_url_path === '{% url "portal:contact" %}'){
+                $("#contact-tab").addClass("active-menu");
+            }
+            else if (current_url_path === '{% get_category_url_by_name_contains "Visiting Card" %}'){
+                $("#vc-tab").addClass("active-menu");
+            }
+            else if (current_url_path === '{% get_category_url_by_name_contains "Pen" %}'){
+                $("#pn-tab").addClass("active-menu");
+            }
+            else if (current_url_path === '{% get_category_url_by_name_contains "Identity Card" %}'){
+                $("#id-tab").addClass("active-menu");
+            }
+            else if (current_url_path === '{% get_category_url_by_name_contains "wholesale" %}'){
+                $("#wh-tab").addClass("active-menu");
+            }
+        </script>
