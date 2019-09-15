@@ -159,6 +159,16 @@ class Product(models.Model):
         return "{} Rs".format(self.rate_set.filter(quantity__lte=1000).order_by("-quantity").first().per_piece_amount)
 
     @property
+    def get_price_text_list(self):
+        if not self.category.is_rate_qty:
+            text_list = []
+            for rate in self.rate_set.all():
+                text_list.append("above {} piece = {} Rs/Piece".format(rate.quantity, rate.per_piece_amount))
+            return text_list
+        else:
+            return ""
+
+    @property
     def get_paper_type(self):
         if self.category.name == "Visiting Cards":
             try:
